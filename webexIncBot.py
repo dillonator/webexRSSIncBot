@@ -69,7 +69,7 @@ for service, url in FEEDS.items():
         if DEBUG:
             tag = "MAINT(skip)" if is_maint else "POST"
             if upd:
-                print(f"[{service}] {tag} {title}\n  status={status!r} stamp={upd[0]!r}\n  body={upd[>
+                print(f"[{service}] {tag} {title}\n  status={status!r} stamp={upd[0]!r}\n  body={upd[2][:160]!r}\n")
             else:
                 print(f"[{service}] {tag} {title}\n  (no status parsed)\n")
             continue
