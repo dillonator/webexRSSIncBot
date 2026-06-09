@@ -74,7 +74,7 @@ for service, url in FEEDS.items():
                 print(f"[{service}] {tag} {title}\n  (no status parsed)\n")
             continue
 
-        # Can comment out or first_run to post to room + delete seed.json
+        # Can comment out 'or first_run' + delete seed.json to post to room
         if is_maint or first_run:
             continue
 
