@@ -2,9 +2,10 @@
 import os, re, json, html, calendar, pathlib, requests, feedparser
 
 FEEDS = {
-    "Webex App":            "https://status.webex.com/Webex_App.rss",
-    "Webex Calling":        "https://status.webex.com/Webex_Calling.rss",
-    "Webex Contact Center": "https://status.webex.com/Webex_Contact_Center.rss",
+    "Commercial - Webex App":            "https://status.webex.com/Webex_App.rss",
+    "Commercial - Webex Calling":        "https://status.webex.com/Webex_Calling.rss",
+    "Commercial - Webex Contact Center": "https://status.webex.com/Webex_Contact_Center.rss",
+    # Future -  could add goverment feeds, but I don't have a need for it at this point
 }
 TOKEN = os.environ["WEBEX_BOT_TOKEN"]
 ROOM  = os.environ["WEBEX_ROOM_ID"]
