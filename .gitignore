@@ -1,3 +1,6 @@
+# Ignore seen.json file for capturing already seen RSS feeds
+seen.json
+
 # Byte-compiled / optimized / DLL files
 __pycache__/
 *.py[codz]

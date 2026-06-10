@@ -1,0 +1,34 @@
+# Project specifics 
+.env
+seen.json
+*.log
+
+# Virtual environments
+.venv/
+venv/
+ENV/
+env/
+
+# Python
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+.Python
+
+# uv
+.uv/
+
+# Version control
+.git/
+.gitignore
+.gitattributes
+
+# Documentation
+*.md
+docs/
+
+# Docker
+.dockerignore
+Dockerfile
+docker-compose.yml

@@ -1,0 +1,14 @@
+services:
+  webex-status-bot:
+    build: .
+    container_name: webex-status-bot
+    env_file: bot.env          # WEBEX_BOT_TOKEN, WEBEX_ROOM_ID
+    environment:
+      POLL_SECONDS: "600"
+      STATE_FILE: /data/seen.json
+    volumes:
+      - bot-state:/data        # seen.json survives restarts
+    restart: unless-stopped
+
+volumes:
+  bot-state:
