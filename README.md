@@ -3,6 +3,8 @@ Parse specific WebEx Service RSS feeds and post incidents to a WebEx space
 
 uv for dependency managment
 
+## Prereqs - Add WebEx bot setup notes
+
 ## Developer Setup
 
 1. **Clone the repository:**
@@ -23,9 +25,9 @@ uv for dependency managment
    cp bot.env.example bot.env
    ```
     Edit bot.env and provide:
-        WEBEX_BOT_TOKEN=[your_bot_token_here]
-        WEBEX_ROOM_ID=[your_room_id_here]
-        STATE_FILE=[/path/to/seen.json] -- may change with docker
+        - 'WEBEX_BOT_TOKEN='[your_bot_token_here]
+        - 'WEBEX_ROOM_ID='[your_room_id_here]
+        - 'STATE_FILE='[/path/to/seen.json] -- may change with docker
 
 4. **Run the application:**
    ```bash
