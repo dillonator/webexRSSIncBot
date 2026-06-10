@@ -1,11 +1,14 @@
 # webexRSSIncBot
-Parse specific WebEx Service RSS feeds and post incidents to a WebEx space
-Currently watching the following feeds:
-    - "Commercial - Webex App":            "https://status.webex.com/Webex_App.rss",
-    - "Commercial - Webex Calling":        "https://status.webex.com/Webex_Calling.rss",
-    - "Commercial - Webex Contact Center": "https://status.webex.com/Webex_Contact_Center.rss",
+Parse specific WebEx Service RSS feeds and post only Incidents to a WebEx space
 
-uv for dependency managment
+Currently watching the following feeds:
+    
+- "Commercial - Webex App":            "https://status.webex.com/Webex_App.rss",   
+- "Commercial - Webex Calling":        "https://status.webex.com/Webex_Calling.rss",
+- "Commercial - Webex Contact Center": "https://status.webex.com/Webex_Contact_Center.rss",
+
+
+Using uv for dependency management
 
 ## Prereqs - Add WebEx bot setup notes
 1. Setup a bot at https://developer.webex.com/
@@ -62,4 +65,4 @@ The project includes a multi-stage `Dockerfile` optimized for production.
     cp bot.env.example bot.env      # then paste your real token + room ID
     docker compose up -d --build
     docker compose logs -f          # watch it start and poll
-```
+    ```
