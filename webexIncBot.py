@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 import time, sys, os, re, json, html, calendar, pathlib, requests, feedparser
-#Poll RSS feeds every 2 min
+# Poll RSS feeds every 2 min
 POLL_SECONDS = int(os.environ.get("POLL_SECONDS", "120"))
 
 FEEDS = {
@@ -92,6 +92,10 @@ def run_once():
             requests.post("https://webexapis.com/v1/messages",
                 headers={"Authorization": f"Bearer {TOKEN}"},
                 json={"roomId": ROOM, "markdown": "\n".join(lines)}, timeout=20).raise_for_status()
+    
+    # Save the updated set of seen items, so it's not repeated
+    if not DEBUG:
+        STATE.write_text(json.dumps(sorted(updated)))
 
 if __name__ == "__main__":
     if DEBUG or "--once" in sys.argv:

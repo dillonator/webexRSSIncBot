@@ -1,7 +1,7 @@
 # webexRSSIncBot
 Parse specific WebEx Service RSS feeds and post only Incidents to a WebEx space
 
-Currently watching the following feeds:
+By default watching the following feeds, customize as you see fit in webexIncBot.py:
     
 - "Commercial - Webex App":            "https://status.webex.com/Webex_App.rss",   
 - "Commercial - Webex Calling":        "https://status.webex.com/Webex_Calling.rss",
@@ -23,7 +23,7 @@ Using uv for dependency management
 1. **Clone the repository:**
    ```bash
    git clone <repository-url>
-   cd webexrssinc
+   cd webexRSSIncBot
    ```
 
 2. **Install dependencies:**
@@ -38,9 +38,8 @@ Using uv for dependency management
    cp bot.env.example bot.env
    ```
     Edit bot.env and provide:
-        - 'WEBEX_BOT_TOKEN='[your_bot_token_here]
-        - 'WEBEX_ROOM_ID='[your_room_id_here]
-        - 'STATE_FILE='[/path/to/seen.json]
+      - 'WEBEX_BOT_TOKEN='[your_bot_token_here]
+      - 'WEBEX_ROOM_ID='[your_room_id_here]
 
 4. **Run the application:**
    ```bash
