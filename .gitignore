@@ -1,5 +1,6 @@
-# Ignore seen.json file for capturing already seen RSS feeds
+# seen.json file for capturing already seen RSS feeds, this will re-seed
 seen.json
+errors.json
 
 # Byte-compiled / optimized / DLL files
 __pycache__/

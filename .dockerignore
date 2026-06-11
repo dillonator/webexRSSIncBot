@@ -1,6 +1,7 @@
 # Project specifics 
 .env
 seen.json
+errors.json
 *.log
 
 # Virtual environments

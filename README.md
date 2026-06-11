@@ -11,9 +11,12 @@ Currently watching the following feeds:
 Using uv for dependency management
 
 ## Prereqs - Add WebEx bot setup notes
-1. Setup a bot at https://developer.webex.com/
+1. Setup a bot at https://developer.webex.com/ or https://developer.webex.com/my-apps/new/bot
 2. Collect bot token and grab room ID using info here:
-    ### TODO
+   - Either create the room and add bot or add bot to existing room, then grab the room ID:
+   - https://developer.webex.com/messaging/docs/api/v1/rooms/get-room-details
+   - Use the bot token to get the rooms it's a member off. Run straight on the page above to grab it
+   - Note this for the steps below
 
 ## Developer Setup
 
@@ -37,7 +40,7 @@ Using uv for dependency management
     Edit bot.env and provide:
         - 'WEBEX_BOT_TOKEN='[your_bot_token_here]
         - 'WEBEX_ROOM_ID='[your_room_id_here]
-        - 'STATE_FILE='[/path/to/seen.json] -- may change with docker
+        - 'STATE_FILE='[/path/to/seen.json]
 
 4. **Run the application:**
    ```bash
@@ -57,12 +60,12 @@ The application uses the following environment variables (defined in `bot.env`):
 
 ### Using Docker
 
-The project includes a multi-stage `Dockerfile` optimized for production.
+The project includes a `Dockerfile` optimized for production.
 
-1. To build a new image, issue the command
+1. To clone to your environment, build a new image, issue the command
     ```bash
-    cd webex-inc-bot
-    cp bot.env.example bot.env      # then paste your real token + room ID
-    docker compose up -d --build
-    docker compose logs -f          # watch it start and poll
+   git clone <repo link above> && cd ./webexRSSIncBot
+   cp bot.env.example bot.env      # edit & paste real token + room ID. Clean up after build for hygiene
+   docker compose up -d --build
+   docker compose logs -f
     ```
