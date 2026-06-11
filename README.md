@@ -10,11 +10,11 @@ Currently watching the following feeds:
 
 Using uv for dependency management
 
-## Prereqs - Add WebEx bot setup notes
+## Prereqs - Create a new WebEx Bot or use existing (need bot token)
 1. Setup a bot at https://developer.webex.com/ or https://developer.webex.com/my-apps/new/bot
 2. Collect bot token and grab room ID using info here:
    - Either create the room and add bot or add bot to existing room, then grab the room ID:
-   - https://developer.webex.com/messaging/docs/api/v1/rooms/get-room-details
+   - https://developer.webex.com/messaging/docs/api/v1/rooms/list-rooms
    - Use the bot token to get the rooms it's a member off. Run straight on the page above to grab it
    - Note this for the steps below
 

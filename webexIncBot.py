@@ -1,5 +1,7 @@
 #!/usr/bin/env python3
-import os, re, json, html, calendar, pathlib, requests, feedparser
+import time, sys, os, re, json, html, calendar, pathlib, requests, feedparser
+#Poll RSS feeds every 2 min
+POLL_SECONDS = int(os.environ.get("POLL_SECONDS", "120"))
 
 FEEDS = {
     "Commercial - Webex App":            "https://status.webex.com/Webex_App.rss",
@@ -50,45 +52,55 @@ def item_ts(e):
     t = e.get("updated_parsed") or e.get("published_parsed")
     return calendar.timegm(t) if t else 0
 
-seen      = set(json.loads(STATE.read_text())) if STATE.exists() else set()
-updated   = set(seen)
-first_run = not STATE.exists()
+def run_once():
+    seen      = set(json.loads(STATE.read_text())) if STATE.exists() else set()
+    updated   = set(seen)
+    first_run = not STATE.exists()
 
-for service, url in FEEDS.items():
-    for e in feedparser.parse(url).entries:
-        guid = e.get("id") or e.get("link")
-        uid  = f"{service}:{guid}:{item_ts(e)}"
-        if uid in seen and not DEBUG:
-            continue
-        updated.add(uid)
+    for service, url in FEEDS.items():
+        for e in feedparser.parse(url).entries:
+            guid = e.get("id") or e.get("link")
+            uid  = f"{service}:{guid}:{item_ts(e)}"
+            if uid in seen and not DEBUG:
+                continue
+            updated.add(uid)
 
-        upd      = latest_update(e.get("summary", ""))
-        status   = upd[1] if upd else ""
-        title    = e.get("title", "")
-        is_maint = "maintenance" in title.lower() or status in MAINT_STATUSES
+            upd      = latest_update(e.get("summary", ""))
+            status   = upd[1] if upd else ""
+            title    = e.get("title", "")
+            is_maint = "maintenance" in title.lower() or status in MAINT_STATUSES
 
-        if DEBUG:
-            tag = "MAINT(skip)" if is_maint else "POST"
-            if upd:
-                print(f"[{service}] {tag} {title}\n  status={status!r} stamp={upd[0]!r}\n  body={upd[2][:160]!r}\n")
-            else:
-                print(f"[{service}] {tag} {title}\n  (no status parsed)\n")
-            continue
+            if DEBUG:
+                tag = "MAINT(skip)" if is_maint else "POST"
+                if upd:
+                    print(f"[{service}] {tag} {title}\n  status={status!r} stamp={upd[0]!r}\n  body={upd[2][:160]!r}\n")
+                else:
+                    print(f"[{service}] {tag} {title}\n  (no status parsed)\n")
+                continue
 
-        # Can comment out 'or first_run' + delete seed.json to post to room
-        if is_maint or first_run:
-            continue
+            # Can comment out 'or first_run' + delete seed.json to post to room
+            if is_maint or first_run:
+                continue
 
-        stamp, status, body = upd
-        lines = [f"{EMOJI.get(status,'🔔')} **{service} — {status.title()}**", "", f"**{title}**"]
-        reg = regions(e.get("summary", ""))
-        if reg:
-            lines.append(f"Regions: {reg}")
-        # Add e.link to be able to view  Inc
-        lines += ["", body, "", f"_{stamp}_", f"[View Incident]({e.link})"]
-        requests.post("https://webexapis.com/v1/messages",
-            headers={"Authorization": f"Bearer {TOKEN}"},
-            json={"roomId": ROOM, "markdown": "\n".join(lines)}, timeout=20).raise_for_status()
+            stamp, status, body = upd
+            lines = [f"{EMOJI.get(status,'🔔')} **{service} — {status.title()}**", "", f"**{title}**"]
+            reg = regions(e.get("summary", ""))
+            if reg:
+                lines.append(f"Regions: {reg}")
+            # Add e.link to be able to view  Inc
+            lines += ["", body, "", f"_{stamp}_", f"[View Incident]({e.link})"]
+            requests.post("https://webexapis.com/v1/messages",
+                headers={"Authorization": f"Bearer {TOKEN}"},
+                json={"roomId": ROOM, "markdown": "\n".join(lines)}, timeout=20).raise_for_status()
 
-if not DEBUG:
-    STATE.write_text(json.dumps(sorted(updated)))
+if __name__ == "__main__":
+    if DEBUG or "--once" in sys.argv:
+        run_once()
+    else:
+        print(f"Webex Inc Bot running; polling every {POLL_SECONDS}s", flush=True)
+        while True:
+            try:
+                run_once()
+            except Exception as ex:
+                print(f"poll error: {ex}", file=sys.stderr, flush=True)
+            time.sleep(POLL_SECONDS)
