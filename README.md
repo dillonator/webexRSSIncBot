@@ -17,7 +17,7 @@ Dependencies are managed with [uv](https://docs.astral.sh/uv/).
 - Skips scheduled maintenance windows.
 - Records what it has posted in `seen.json` so it never double-posts across restarts.
 
-## Prerequisites — create a Webex bot
+## Prerequisites — create a Webex bot or use an existing bot if you already have a **bot token**
 
 1. Create a bot at https://developer.webex.com/my-apps/new/bot and copy the **bot token** (shown only once).
 2. Add the bot to the target space, then get the **room ID**:
