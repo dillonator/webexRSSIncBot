@@ -5,7 +5,8 @@ services:
     env_file: bot.env          # WEBEX_BOT_TOKEN, WEBEX_ROOM_ID
     environment:
       POLL_SECONDS: "120"
-      STATE_FILE: /data/seen.json
+      INC_STATE_FILE: /data/inc_seen.json
+      SEC_STATE_FILE: /data/sec_seen.json
     volumes:
       - bot-state:/data        # seen.json survives restarts
     restart: unless-stopped

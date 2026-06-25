@@ -1,5 +1,6 @@
 # seen.json file for capturing already seen RSS feeds, this will re-seed
-seen.json
+inc_seen.json
+sec_seen.json
 errors.json
 
 # Byte-compiled / optimized / DLL files

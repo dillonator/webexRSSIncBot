@@ -2,7 +2,15 @@
 
 Parse specific Webex service RSS feeds and post **only incidents** to a Webex space — maintenance is filtered out, and each post shows the **latest status update**, not the whole history.
 
-By default it watches these feeds (edit `FEEDS` in `webexIncBot.py` to customize):
+Version 2.0: Parse Cisco PSIRT security advisories "https://sec.cloudapps.cisco.com/security/center/psirtrss20/CiscoSecurityAdvisory.xml" and post only Critical Collaboration product security advisories.
+
+Keywords:
+    "webex", "unified communications manager", "unified cm", "cucm",
+    "unity connection", "im and presence", "expressway", "telepresence",
+    "jabber", "finesse", "contact center",
+    "uccx", "Cisco Unified Contact Center Enterprise", "pcce", "emergency responder"
+
+For Webex Incidents, by default it watches these feeds (edit `FEEDS` in `webexIncBot.py` to customize):
 
 - Commercial - Webex App — https://status.webex.com/Webex_App.rss
 - Commercial - Webex Calling — https://status.webex.com/Webex_Calling.rss
@@ -31,14 +39,17 @@ Dependencies are managed with [uv](https://docs.astral.sh/uv/).
 | Variable | Description | Required |
 |----------|-------------|----------|
 | `WEBEX_BOT_TOKEN` | Webex bot API token | Yes |
-| `WEBEX_ROOM_ID` | Target Webex room ID | Yes |
+| `INC_NOTIFICATION_WEBEX_ROOM_ID` | Target Webex room ID for WebEx System Incidents | Yes |
+| `CRIT_SEC_NOTIFICATION_WEBEX_ROOM_ID` | Target Webex room ID for Critical Cisco Collab Vulnerabilities | Yes |
+|`CISCO_FEED_URL` | Optional override for the Cisco PSIRT XML feed | no
 
 Runtime config (defaults work out of the box):
 
 | Variable | Description | Default |
 |----------|-------------|---------|
 | `POLL_SECONDS` | Seconds between polls | `120` (set in `docker-compose.yml`) |
-| `STATE_FILE` | Dedup state file path | `seen.json` (local) / `/data/seen.json` (Docker) |
+| `INC_STATE_FILE` | Dedup state file path for WebEx System Incidents | `inc_seen.json` (local) / `/data/inc_seen.json` (Docker) |
+| `SEC_STATE_FILE` | Dedup state file path for Critical Cisco Collab Vulnerabilities | `sec_seen.json` (local) / `/data/sec_ seen.json` (Docker) |
 | `DEBUG` | `1` = parse and print only, post nothing | unset |
 
 ## Local development (uv)
@@ -58,7 +69,7 @@ DEBUG=1 uv run --env-file bot.env python webexIncBot.py    # parse only, no post
 uv run --env-file bot.env python webexIncBot.py            # continuous loop
 ```
 
-Local runs create `seen.json` in the project folder. The first run seeds it silently (posts nothing); subsequent runs post only new updates.
+Local runs create `inc_seen.json` and `sec_seen.json` in the project folder. The first run seeds it silently (posts nothing); subsequent runs post only new updates.
 
 ## Deployment (Docker)
 
@@ -77,5 +88,5 @@ docker exec webex-status-bot cat /data/seen.json
 
 ## Notes
 
-- `bot.env` and `seen.json` are gitignored — never commit them. If a token is ever exposed, rotate it at https://developer.webex.com/my-apps.
+- `bot.env`, `inc_seen.json` and `sec_seen.json` are gitignored — never commit them. If a token is ever exposed, rotate it at https://developer.webex.com/my-apps.
 - Inspired by Webex's RSS parser bot guide: https://developer.webex.com/blog/how-to-create-your-own-rss-feed-parser-bot-for-webex
