@@ -5,10 +5,12 @@ Parse specific Webex service RSS feeds and post **only incidents** to a Webex sp
 Version 2.0: Parse Cisco PSIRT security advisories "https://sec.cloudapps.cisco.com/security/center/psirtrss20/CiscoSecurityAdvisory.xml" and post only Critical Collaboration product security advisories.
 
 Keywords:
+```bash
     "webex", "unified communications manager", "unified cm", "cucm",
     "unity connection", "im and presence", "expressway", "telepresence",
     "jabber", "finesse", "contact center",
     "uccx", "Cisco Unified Contact Center Enterprise", "pcce", "emergency responder"
+```
 
 For Webex Incidents, by default it watches these feeds (edit `FEEDS` in `webexIncBot.py` to customize):
 
