@@ -85,7 +85,8 @@ docker compose logs -f
 State persists in the `bot-state` named volume, so restarts and rebuilds won't re-post. To inspect it:
 
 ```bash
-docker exec webex-status-bot cat /data/seen.json
+docker exec collab-alert-bot cat /data/inc_seen.json
+docker exec collab-alert-bot cat /data/sec_seen.json
 ```
 
 ## Notes

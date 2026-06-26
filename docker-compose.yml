@@ -1,7 +1,7 @@
 services:
   webex-status-bot:
     build: .
-    container_name: webex-status-bot
+    container_name: collab-alert-bot
     env_file: bot.env          # WEBEX_BOT_TOKEN, WEBEX_ROOM_ID
     environment:
       POLL_SECONDS: "120"
