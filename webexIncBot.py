@@ -5,9 +5,9 @@ POLL_SECONDS = int(os.environ.get("POLL_SECONDS", "120"))
 
 # WebEx Status Feeds
 FEEDS = {
-    "Commercial - Webex App":            "https://status.webex.com/Webex_App.rss",
-    "Commercial - Webex Calling":        "https://status.webex.com/Webex_Calling.rss",
-    "Commercial - Webex Contact Center": "https://status.webex.com/Webex_Contact_Center.rss",
+    "Webex App - Commercial":            "https://status.webex.com/Webex_App.rss",
+    "Webex Calling - Commercial":        "https://status.webex.com/Webex_Calling.rss",
+    "Webex Contact Center - Commercial": "https://status.webex.com/Webex_Contact_Center.rss",
     # Future -  could add government feeds, but I don't have a need for it at this point
     # Add any you'd like
 }
