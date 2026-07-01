@@ -152,8 +152,10 @@ def poll_cisco_advisories():
     for e in feedparser.parse(SEC_FEED).entries:
         guid = e.get("id") or e.get("link")
         uid  = f"cisco:{guid}:{item_ts(e)}"     # re-post only when an advisory is revised
-        if uid in seen and not DEBUG:
+        if uid in seen and not DEBUG:           # already seen, skip
             continue
+        # Check if any previous seen entry has the same guid (i.e. the advisory was revised)
+        revised = any(s.startswith(f"cisco:{guid}:") for s in seen)
         updated.add(uid)
 
         rating = cisco_rating(e)
@@ -167,8 +169,10 @@ def poll_cisco_advisories():
         if not match or first_run:              # seed silently on first run
             continue
 
+        # add "Revised" to title if this advisory was previously seen
+        tag = "🔄 (Revised) " if revised else ""
         lines = [
-            "🔴 **Cisco Security — Critical (Collaboration)**", "",
+            f"**{tag} 🔴 Critical Cisco Security Advisory - (Collaboration)**", "",
             f"**{e.get('title','')}**",
             f"Security Impact Rating: {rating.title()}", "",
             f"_{e.get('published','')}_",
